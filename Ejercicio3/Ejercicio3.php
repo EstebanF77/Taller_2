@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $media = number_format($calc->calcularMedia(), 2);
         $moda = $calc->calcularModa();
     } else {
-        $promedio = $media = $moda = "Entrada inválida";
+        $promedio = $media = $moda = "Entrada invalida";
     }
 }
 ?>
@@ -86,5 +86,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <p>Media: <?php echo $media; ?></p>
         <p>Moda: <?php echo $moda; ?></p>
     <?php endif; ?>
+
+        <a href="../Index.html">ir al inicio</a>
+
 </body>
 </html>
