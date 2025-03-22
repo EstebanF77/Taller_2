@@ -18,7 +18,7 @@
     </form>
 
     <?php
-    require_once 'conjuntos.php';
+    require_once 'Ejercicio4.php';
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $A = OperacionesConjuntos::obtenerConjunto($_POST['conjuntoA']);
