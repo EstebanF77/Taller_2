@@ -1,4 +1,6 @@
 <?php
+require 'Formulario3.php'; 
+
 $promedio = $media = $moda = "";
 $numerosTexto = "";
 
@@ -15,53 +17,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (count($numeros) > 0) {
-        class CalculadoraEstadistica {
-            private $numeros;
-
-            public function __construct($numeros) {
-                $this->numeros = $numeros;
-            }
-
-            public function calcularPromedio() {
-                return array_sum($this->numeros) / count($this->numeros);
-            }
-
-            public function calcularMedia() {
-                $ordenados = $this->numeros;
-                sort($ordenados);
-                $n = count($ordenados);
-                $mitad = floor($n / 2);
-
-                if ($n % 2 == 0) {
-                    return ($ordenados[$mitad - 1] + $ordenados[$mitad]) / 2;
-                } else {
-                    return $ordenados[$mitad];
-                }
-            }
-
-            public function calcularModa() {
-                $convertidos = array_map('strval', $this->numeros);
-            
-                $frecuencias = array_count_values($convertidos);
-                $maxFrecuencia = max($frecuencias);
-                $modas = array_keys($frecuencias, $maxFrecuencia);
-            
-                if (count($modas) == count($frecuencias)) {
-                    return "No hay moda";
-                }
-            
-                $modasNumericas = array_map('floatval', $modas);
-                return implode(", ", $modasNumericas);
-            }
-            
-        }
-
         $calc = new CalculadoraEstadistica($numeros);
         $promedio = number_format($calc->calcularPromedio(), 2);
         $media = number_format($calc->calcularMedia(), 2);
         $moda = $calc->calcularModa();
     } else {
-        $promedio = $media = $moda = "Entrada invalida";
+        $promedio = $media = $moda = "Entrada inválida";
     }
 }
 ?>
@@ -70,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Estadísticas</title>
+    <title>Calculadora Estadística</title>
 </head>
 <body>
     <h2>Calculadora Estadística</h2>
@@ -87,7 +48,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <p>Moda: <?php echo $moda; ?></p>
     <?php endif; ?>
 
-        <a href="../Index.html">ir al inicio</a>
-
+    <a href="../Index.html">Ir al inicio</a>
 </body>
 </html>
