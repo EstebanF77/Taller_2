@@ -14,7 +14,7 @@
     </form>
 
     <?php
-    require_once 'acronimo.php';
+    require_once 'Ejercicio1.php';
 
     if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["phrase"])) {
         $generador = new CrearAcronimo();
