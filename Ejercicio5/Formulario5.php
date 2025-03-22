@@ -1,7 +1,7 @@
 
 
 <?php
-require'Formulario5.php';
+require'Ejercicio5.php';
 
 $numeroDecimal = "";
 $resultadoBinario = "";

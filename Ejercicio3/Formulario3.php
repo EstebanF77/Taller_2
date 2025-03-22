@@ -1,5 +1,5 @@
 <?php
-require 'Formulario3.php'; 
+require 'Ejercicio3.php'; 
 
 $promedio = $media = $moda = "";
 $numerosTexto = "";
