@@ -1,5 +1,4 @@
 <?php
-
 //sirve para estructurar el nombramiento de los metodos de las clases  (a diferencia del la clase abtarascta este ermite crear metodos metodos intectativos)
 interface  FigurasGeometricas{
     public function area();
