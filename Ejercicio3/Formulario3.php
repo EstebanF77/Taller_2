@@ -17,7 +17,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (count($numeros) > 0) {
-        $calc = new CalculadoraEstadistica($numeros);
+        $calc = new CalculadoraEstadistica();
+        $calc->setNumeros($numeros);
         $promedio = number_format($calc->calcularPromedio(), 2);
         $media = number_format($calc->calcularMedia(), 2);
         $moda = $calc->calcularModa();
@@ -37,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <h2>Calculadora Estadística</h2>
     <form method="post">
         <label>Ingresa números separados por comas:</label><br>
-        <input type="text" name="numeros" value="<?php echo htmlspecialchars($numerosTexto); ?>" required><br><br>
+        <input type="text" name="numeros" value="<?php echo $numerosTexto; ?>" required><br><br>
         <input type="submit" value="Calcular">
     </form>
 

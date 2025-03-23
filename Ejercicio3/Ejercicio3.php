@@ -1,13 +1,15 @@
-
 <?php
 class CalculadoraEstadistica {
-    private array $numeros;
+    private array $numeros = [];  // Inicializado vacío
 
-    public function __construct(array $numeros) {
+    public function setNumeros(array $numeros) {
         $this->numeros = $numeros;
     }
 
     public function calcularPromedio(): float {
+        if (count($this->numeros) === 0) {
+            return 0;  // Evita división por cero
+        }
         return array_sum($this->numeros) / count($this->numeros);
     }
 
@@ -15,6 +17,10 @@ class CalculadoraEstadistica {
         $ordenados = $this->numeros;
         sort($ordenados);
         $n = count($ordenados);
+        if ($n === 0) {
+            return 0;  // Evita error si está vacío
+        }
+
         $mitad = floor($n / 2);
 
         if ($n % 2 == 0) {
@@ -25,6 +31,10 @@ class CalculadoraEstadistica {
     }
 
     public function calcularModa(): string {
+        if (count($this->numeros) === 0) {
+            return "No hay moda";  // Evita error si está vacío
+        }
+
         $convertidos = array_map('strval', $this->numeros);
         $frecuencias = array_count_values($convertidos);
         $maxFrecuencia = max($frecuencias);
