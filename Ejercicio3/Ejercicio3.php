@@ -1,6 +1,6 @@
 <?php
 class CalculadoraEstadistica {
-    private array $numeros = [];  // Inicializado vacío
+    private array $numeros = [];  
 
     public function setNumeros(array $numeros) {
         $this->numeros = $numeros;
@@ -8,7 +8,7 @@ class CalculadoraEstadistica {
 
     public function calcularPromedio(): float {
         if (count($this->numeros) === 0) {
-            return 0;  // Evita división por cero
+            return 0;  
         }
         return array_sum($this->numeros) / count($this->numeros);
     }
@@ -18,7 +18,7 @@ class CalculadoraEstadistica {
         sort($ordenados);
         $n = count($ordenados);
         if ($n === 0) {
-            return 0;  // Evita error si está vacío
+            return 0;  
         }
 
         $mitad = floor($n / 2);
@@ -32,7 +32,7 @@ class CalculadoraEstadistica {
 
     public function calcularModa(): string {
         if (count($this->numeros) === 0) {
-            return "No hay moda";  // Evita error si está vacío
+            return "No hay moda";  
         }
 
         $convertidos = array_map('strval', $this->numeros);
