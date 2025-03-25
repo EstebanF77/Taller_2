@@ -1,110 +1,99 @@
 <?php
 class Nodo {
-    public $contenido;
+    public $valor;
     public $izquierda;
     public $derecha;
 
-    function __construct($contenido) {
-        $this->contenido = $contenido;
+    public function __construct($valor) {
+        $this->valor = $valor;
         $this->izquierda = null;
         $this->derecha = null;
     }
 }
 
 class ArbolBinario {
-    private $raiz;
+    public $raiz;
 
-    function getRaiz() {
-        return $this->raiz;
+    public function __construct() {
+        $this->raiz = null;
     }
 
-    function __construct($preorden = [], $inorden = [], $postorden = []) {
-        if (!empty($preorden) && !empty($inorden)) {
-            $this->raiz = $this->construirDesdePreIn($preorden, $inorden);
-        } elseif (!empty($inorden) && !empty($postorden)) {
-            $this->raiz = $this->construirDesdeInPost($inorden, $postorden);
-        }
+    public function construirDesdePreIn($preorden, $inorden) {
+        $this->raiz = $this->construirRecursivo($preorden, $inorden);
     }
 
-    private function construirDesdePreIn($preorden, $inorden) {
+    private function construirRecursivo(&$preorden, $inorden) {
         if (empty($preorden) || empty($inorden)) return null;
 
-        $raizContenido = array_shift($preorden);
-        $nodo = new Nodo($raizContenido);
-        $indice = array_search($raizContenido, $inorden);
+        $valorRaiz = array_shift($preorden);
+        $nodo = new Nodo($valorRaiz);
+        $indice = array_search($valorRaiz, $inorden);
 
-        $nodo->izquierda = $this->construirDesdePreIn(
-            array_slice($preorden, 0, $indice),
-            array_slice($inorden, 0, $indice)
-        );
-        $nodo->derecha = $this->construirDesdePreIn(
-            array_slice($preorden, $indice),
-            array_slice($inorden, $indice + 1)
-        );
+        $nodo->izquierda = $this->construirRecursivo($preorden, array_slice($inorden, 0, $indice));
+        $nodo->derecha = $this->construirRecursivo($preorden, array_slice($inorden, $indice + 1));
 
         return $nodo;
     }
 
-    private function construirDesdeInPost($inorden, $postorden) {
-        if (empty($inorden) || empty($postorden)) return null;
+    public function renderizar($nodo) {
+        if ($nodo === null) return;
 
-        $raizContenido = array_pop($postorden);
-        $nodo = new Nodo($raizContenido);
-        $indice = array_search($raizContenido, $inorden);
+       
+        echo "<div class='contenedor-nodo'>";
+        echo "<div class='nodo'>{$nodo->valor}</div>";
 
-        $nodo->derecha = $this->construirDesdeInPost(
-            array_slice($inorden, $indice + 1),
-            array_slice($postorden, $indice)
-        );
-        $nodo->izquierda = $this->construirDesdeInPost(
-            array_slice($inorden, 0, $indice),
-            array_slice($postorden, 0, $indice)
-        );
-
-        return $nodo;
-    }
-
-    function dibujarArbol($nodo) {
-        if ($nodo === null) return '';
-
-        // Dibujar el nodo actual
-        $html = '<div class="nodo">' . $nodo->contenido;
-
-        // Dibujar hijos si existen
+        
         if ($nodo->izquierda || $nodo->derecha) {
-            $html .= '<div class="hijos">';
-            $html .= $nodo->izquierda ? $this->dibujarArbol($nodo->izquierda) : '<div class="vacio"></div>';
-            $html .= $nodo->derecha ? $this->dibujarArbol($nodo->derecha) : '<div class="vacio"></div>';
-            $html .= '</div>';
+            echo "<div class='lineas'>";
+            if ($nodo->izquierda) {
+                echo "<div class='linea izquierda'></div>";
+            }
+            if ($nodo->derecha) {
+                echo "<div class='linea derecha'></div>";
+            }
+            echo "</div>";
         }
 
-        $html .= '</div>';
-        return $html;
+        
+        echo "<div class='hijos'>";
+        if ($nodo->izquierda) {
+            $this->renderizar($nodo->izquierda);
+        } else {
+            echo "<div class='espacio'></div>";
+        }
+
+        if ($nodo->derecha) {
+            $this->renderizar($nodo->derecha);
+        } else {
+            echo "<div class='espacio'></div>";
+        }
+        echo "</div>";
+
+        echo "</div>"; 
     }
 }
 
-// Crear el árbol y mostrarlo después de definirlo en otro archivo PHP
-if (isset($arbol) && $arbol->getRaiz() !== null) {
-    echo '<div class="arbol">' . $arbol->dibujarArbol($arbol->getRaiz()) . '</div>';
-}
+if (isset($_GET['preorden']) && isset($_GET['inorden'])) {
+    $preorden = explode(",", str_replace(" ", "", $_GET['preorden']));
+    $inorden = explode(",", str_replace(" ", "", $_GET['inorden']));
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $preorden = !empty($_POST['preorden']) ? explode(',', $_POST['preorden']) : [];
-    $inorden = !empty($_POST['inorden']) ? explode(',', $_POST['inorden']) : [];
-    $postorden = !empty($_POST['postorden']) ? explode(',', $_POST['postorden']) : [];
-
-    // Verificar que al menos se ingresaron dos recorridos
-    if ((count($preorden) > 0 && count($inorden) > 0) || (count($inorden) > 0 && count($postorden) > 0)) {
-        $arbol = new ArbolBinario($preorden, $inorden, $postorden);
-        $raiz = $arbol->getRaiz();
-
-        // Mostrar el árbol visualmente
-        echo "<h2>Árbol Binario Generado</h2>";
-        echo '<div class="arbol">';
-        echo $arbol->dibujarArbol($raiz);
-        echo '</div>';
-    } else {
-        echo "<p style='color:red;'>Debes ingresar al menos dos recorridos.</p>";
-    }
+    $arbol = new ArbolBinario();
+    $arbol->construirDesdePreIn($preorden, $inorden);
 }
 ?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Árbol Binario</title>
+    <link rel="stylesheet" href="css.css">
+</head>
+<body>
+    <div class="arbol">
+        <?php if (isset($arbol)) $arbol->renderizar($arbol->raiz); ?>
+    </div>
+</body>
+</html>
+
+
+
