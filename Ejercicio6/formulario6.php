@@ -4,48 +4,6 @@
     <meta charset="UTF-8">
     <title>Construcción de Árbol Binario</title>
     <link rel="stylesheet" href="css.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f8f9fa;
-        }
-        h2 { margin-top: 20px; }
-        form {
-            display: inline-block;
-            text-align: left;
-            margin: 20px auto;
-            border: 1px solid #ddd;
-            padding: 20px;
-            border-radius: 5px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        input[type="text"] {
-            width: 300px;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        button[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button[type="submit"]:hover {
-            background-color: #45a049;
-        }
-        iframe {
-            border: none;
-            margin-top: 20px;
-        }
-    </style>
 </head>
 <body>
     <h2>Construcción de Árbol Binario</h2>
